@@ -976,68 +976,73 @@ class LogDBParser:
             pass
         return res
 
-    def getData(self, table, *args):
-        SQLITE_CMD = 'SELECT '
-        arg_num = 0
+    def getData(self, table, *args, auto_order=True):
+        if auto_order and args:
+            # If auto_order is True (default), sort by the first column.
+            order_by_column = args[0]
+            return self.getDataASC(table, order_by_column, *args)
+        else:
+            SQLITE_CMD = 'SELECT '
+            arg_num = 0
 
-        for n in args:
-            arg_num += 1
-            SQLITE_CMD += n
-            SQLITE_CMD += ','
-        SQLITE_CMD = SQLITE_CMD[:-1]
-        SQLITE_CMD += ' FROM '
-        SQLITE_CMD += table
+            for n in args:
+                arg_num += 1
+                SQLITE_CMD += n
+                SQLITE_CMD += ','
+            SQLITE_CMD = SQLITE_CMD[:-1]
+            SQLITE_CMD += ' FROM '
+            SQLITE_CMD += table
 
-        with self.conn:
-            cur = self.conn.cursor()
-            SQLITE_CMD = SQLITE_CMD.replace('Limit', '[Limit]')
-            data = cur.execute(SQLITE_CMD)
+            with self.conn:
+                cur = self.conn.cursor()
+                SQLITE_CMD = SQLITE_CMD.replace('Limit', '[Limit]')
+                data = cur.execute(SQLITE_CMD)
 
-        res = [[],[],[],[],[],
-               [],[],[],[],[],
-               [],[],[],[],[],
-               [],[],[],[],[]]
-        for row in data:
-            if arg_num > 0:
-                res[0].append(row[0])
-            if arg_num > 1:
-                res[1].append(row[1])
-            if arg_num > 2:
-                res[2].append(row[2])
-            if arg_num > 3:
-                res[3].append(row[3])
-            if arg_num > 4:
-                res[4].append(row[4])
-            if arg_num > 5:
-                res[5].append(row[5])
-            if arg_num > 6:
-                res[6].append(row[6])
-            if arg_num > 7:
-                res[7].append(row[7])
-            if arg_num > 8:
-                res[8].append(row[8])
-            if arg_num > 9:
-                res[9].append(row[9])
-            if arg_num > 10:
-                res[10].append(row[10])
-            if arg_num > 11:
-                res[11].append(row[11])
-            if arg_num > 12:
-                res[12].append(row[12])
-            if arg_num > 13:
-                res[13].append(row[13])
-            if arg_num > 14:
-                res[14].append(row[14])
-            if arg_num > 15:
-                res[15].append(row[15])
-            if arg_num > 16:
-                res[16].append(row[16])
-            if arg_num > 17:
-                res[17].append(row[17])
-            if arg_num > 18:
-                res[18].append(row[18])
-            if arg_num > 19:
-                res[19].append(row[19])
+            res = [[],[],[],[],[],
+                   [],[],[],[],[],
+                   [],[],[],[],[],
+                   [],[],[],[],[]]
+            for row in data:
+                if arg_num > 0:
+                    res[0].append(row[0])
+                if arg_num > 1:
+                    res[1].append(row[1])
+                if arg_num > 2:
+                    res[2].append(row[2])
+                if arg_num > 3:
+                    res[3].append(row[3])
+                if arg_num > 4:
+                    res[4].append(row[4])
+                if arg_num > 5:
+                    res[5].append(row[5])
+                if arg_num > 6:
+                    res[6].append(row[6])
+                if arg_num > 7:
+                    res[7].append(row[7])
+                if arg_num > 8:
+                    res[8].append(row[8])
+                if arg_num > 9:
+                    res[9].append(row[9])
+                if arg_num > 10:
+                    res[10].append(row[10])
+                if arg_num > 11:
+                    res[11].append(row[11])
+                if arg_num > 12:
+                    res[12].append(row[12])
+                if arg_num > 13:
+                    res[13].append(row[13])
+                if arg_num > 14:
+                    res[14].append(row[14])
+                if arg_num > 15:
+                    res[15].append(row[15])
+                if arg_num > 16:
+                    res[16].append(row[16])
+                if arg_num > 17:
+                    res[17].append(row[17])
+                if arg_num > 18:
+                    res[18].append(row[18])
+                if arg_num > 19:
+                    res[19].append(row[19])
         return res
 
     def getDataASC(self, table, order, *args):
